@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>اربحي جائزتك معنا </title>
+  <style>
+    :root {
+      --ink: #1c2430;
+      --muted: #5c6b7a;
+      --line: #d7dee6;
+      --paper: #f4f7fb;
+      --card: #ffffff;
+      --banner: #8a4b08;
+      --banner-bg: #fff4e5;
+      --accent: #1f6f8b;
+      --accent-dark: #174f63;
+      --alert: #8f1d1d;
+      --alert-bg: #fdecec;
+      --ok: #0f6b4c;
+      --ok-bg: #e8f7f1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, "Noto Naskh Arabic", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    .banner {
+      background: var(--banner-bg);
+      color: var(--banner);
+      border-bottom: 1px solid #f0d7b4;
+      padding: 14px 20px;
+      text-align: center;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    main {
+      max-width: 640px;
+      margin: 40px auto;
+      padding: 0 16px 48px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 10px 30px rgba(28, 36, 48, 0.06);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+    }
+
+    p { line-height: 1.8; }
+
+    .lead { color: var(--muted); margin-top: 0; }
+
+    label {
+      display: block;
+      margin: 22px 0 8px;
+      font-weight: 700;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      font: inherit;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    input[type="text"]:focus {
+      outline: 2px solid #b7d7e3;
+      border-color: var(--accent);
+    }
+
+    button {
+      margin-top: 18px;
+      font: inherit;
+      font-weight: 700;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 22px;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    button:hover { background: var(--accent-dark); }
+
+    button.secondary {
+      background: transparent;
+      color: var(--accent-dark);
+      border: 1px solid var(--line);
+    }
+
+    .alert {
+      background: var(--alert-bg);
+      color: var(--alert);
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 1.45rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .lesson {
+      background: var(--ok-bg);
+      color: var(--ok);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-top: 16px;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+ 
+
+  <main>
+    <section class="card" id="form-screen">
+      <h1>احصلي على الجائزة الآن </h1>
+      <p class="lead">اكتبي الاسم فقط </p>
+      <form id="demo-form">
+        <label for="name">الاسم</label>
+        <input id="name" name="name" type="text" autocomplete="off" placeholder="اكتبي اسماً للتجربة">
+        <button type="submit">إرسال</button>
+      </form>
+    </section>
+
+    <section class="card hidden" id="result-screen">
+      <div class="alert">تم هكر جهازك</div>
+      <div class="lesson">
+       
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("demo-form");
+    const formScreen = document.getElementById("form-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const nameInput = document.getElementById("name");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      formScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+    });
+
+    document.getElementById("reset").addEventListener("click", function () {
+      nameInput.value = "";
+      resultScreen.classList.add("hidden");
+      formScreen.classList.remove("hidden");
+      nameInput.focus();
+    });
+  </script>
+</body>
+</html>
