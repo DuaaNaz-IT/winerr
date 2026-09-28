@@ -1,170 +1,428 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>اربحي جائزتك معنا </title>
-  <style>
-    :root {
-      --ink: #1c2430;
-      --muted: #5c6b7a;
-      --line: #d7dee6;
-      --paper: #f4f7fb;
-      --card: #ffffff;
-      --banner: #8a4b08;
-      --banner-bg: #fff4e5;
-      --accent: #1f6f8b;
-      --accent-dark: #174f63;
-      --alert: #8f1d1d;
-      --alert-bg: #fdecec;
-      --ok: #0f6b4c;
-      --ok-bg: #e8f7f1;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اربحي جائزتك معنا</title>
+<!--
+  تجربة توعوية للورشة (محاكاة فقط):
+  - لا يوجد أي اتصال بالإنترنت أو إرسال بيانات أو حفظ لأي معلومة.
+  - الاسم المكتوب يظهر على الشاشة فقط ولا يخرج من الصفحة.
+  - الملف يعمل بدون إنترنت.
+-->
+<style>
+  :root{
+    --ink:#1c2430; --muted:#5c6b7a; --line:#e3e8ee;
+    --green:#00ff66; --red:#ff2d55;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    min-height:100vh;
+    font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic","Noto Sans Arabic",system-ui,sans-serif;
+    color:var(--ink);
+    background:linear-gradient(135deg,#4b1fd1,#c81e8c 55%,#ff7a18);
+    background-size:200% 200%;
+    animation:bgmove 12s ease-in-out infinite alternate;
+    overflow-x:hidden;
+  }
+  @keyframes bgmove{from{background-position:0% 50%}to{background-position:100% 50%}}
+  .hidden{display:none!important}
 
-    * { box-sizing: border-box; }
+  /* ---------- الصفحة الأولى: صفحة الجوائز ---------- */
+  #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+  .ribbon{
+    position:relative;z-index:2;
+    background:linear-gradient(90deg,#e11d48,#ff5a1f);
+    color:#fff;text-align:center;font-weight:800;padding:12px 16px;
+    font-size:1.05rem;letter-spacing:.2px;box-shadow:0 4px 18px rgba(0,0,0,.25);
+  }
+  .ribbon b{background:#fff;color:#e11d48;border-radius:8px;padding:2px 10px;margin:0 6px;display:inline-block;min-width:66px}
+  main{position:relative;z-index:2;max-width:720px;margin:120px auto 40px;padding:0 14px}
+  .card{
+    background:rgba(255,255,255,.97);border-radius:28px;padding:30px 26px 26px;
+    box-shadow:0 24px 60px rgba(30,0,80,.45);text-align:center;
+  }
+  .gift{width:150px;height:150px;margin:-92px auto 6px;display:block;animation:bounce 1.6s ease-in-out infinite;filter:drop-shadow(0 12px 14px rgba(0,0,0,.3))}
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+  .badge{display:inline-block;background:#fff3cd;color:#8a5a00;border:1px solid #ffe08a;border-radius:999px;padding:6px 16px;font-weight:800;font-size:.95rem}
+  h1{
+    margin:12px 0 6px;font-size:2rem;line-height:1.35;font-weight:900;
+    background:linear-gradient(90deg,#5b2bff,#e11d8a,#ff7a18);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .lead{margin:0 0 16px;color:var(--muted);font-size:1.1rem;line-height:1.8}
+  .prizes{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 18px}
+  .prize{flex:1 1 150px;max-width:210px;background:linear-gradient(180deg,#fff,#f6f0ff);border:2px solid #e5d9ff;border-radius:16px;padding:12px 8px;font-weight:800;font-size:.98rem}
+  .prize span{display:block;font-size:2rem;line-height:1.3}
+  .stats{display:flex;gap:10px;margin:0 0 6px}
+  .stat{flex:1;background:#f4f7fb;border:1px solid var(--line);border-radius:14px;padding:10px 8px}
+  .stat b{display:block;font-size:1.5rem;color:#c81e8c;font-variant-numeric:tabular-nums}
+  .stat small{color:var(--muted);font-weight:700}
+  .bar{height:10px;border-radius:999px;background:#eee;overflow:hidden;margin:10px 0 2px}
+  .bar i{display:block;height:100%;width:9%;background:linear-gradient(90deg,#ff2d55,#ff7a18);border-radius:999px;animation:blink 1.2s infinite}
+  @keyframes blink{50%{opacity:.55}}
+  .warnline{color:#d1103a;font-weight:800;margin:6px 0 14px}
+  label{display:block;text-align:right;margin:8px 0 8px;font-weight:800;font-size:1.05rem}
+  input[type=text]{
+    width:100%;font:inherit;font-size:1.2rem;padding:15px 16px;border:2px solid #d4c8f5;border-radius:14px;background:#fff;
+  }
+  input[type=text]:focus{outline:4px solid rgba(91,43,255,.18);border-color:#5b2bff}
+  .cta{
+    width:100%;margin-top:14px;font:inherit;font-weight:900;font-size:1.35rem;color:#fff;border:0;border-radius:16px;padding:17px 22px;cursor:pointer;
+    background:linear-gradient(90deg,#ff3d00,#ff9f0a);box-shadow:0 10px 24px rgba(255,90,0,.45);
+    animation:pulse 1.4s ease-in-out infinite;
+  }
+  .cta:hover{filter:brightness(1.07)}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+  .fine{margin:10px 0 0;color:#6b7785;font-size:.9rem}
+  .trust{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .trust span{background:#e8f7f1;color:#0f6b4c;border:1px solid #bfe8d6;border-radius:999px;padding:6px 12px;font-weight:800;font-size:.9rem}
+  .proof{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+  .t{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 10px 12px;text-align:right;font-size:.92rem;line-height:1.6}
+  .t .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#5b2bff,#e11d8a);color:#fff;font-weight:900;display:inline-flex;align-items:center;justify-content:center;margin-left:6px;vertical-align:middle}
+  .t .st{color:#ffb020;letter-spacing:2px}
+  @media(max-width:560px){.proof{grid-template-columns:1fr}h1{font-size:1.6rem}}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Segoe UI", Tahoma, "Noto Naskh Arabic", sans-serif;
-      color: var(--ink);
-      background: var(--paper);
-    }
+  /* ---------- الصفحة الثانية: شاشة الاختراق ---------- */
+  #hack{
+    position:fixed;inset:0;z-index:100;background:#000;color:var(--green);overflow:hidden;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    animation:shake .5s 2;
+  }
+  @keyframes shake{0%,100%{transform:translate(0)}20%{transform:translate(-8px,4px)}40%{transform:translate(8px,-4px)}60%{transform:translate(-6px,-3px)}80%{transform:translate(6px,3px)}}
+  #matrix{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+  #hack::before{ /* حدود حمراء وامضة */
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
+    box-shadow:inset 0 0 120px 30px rgba(255,0,60,.55);animation:redflash .9s infinite alternate;
+  }
+  @keyframes redflash{from{opacity:.25}to{opacity:1}}
+  #hack::after{ /* خطوط الشاشة */
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:4;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 2px,transparent 2px 4px);
+  }
+  .hk{position:relative;z-index:5;width:min(1100px,96vw);display:flex;align-items:center;justify-content:center;gap:2vw}
+  .hood{flex:0 0 auto;width:clamp(120px,17vw,230px);filter:drop-shadow(0 0 18px rgba(0,255,102,.6));animation:float 3.2s ease-in-out infinite}
+  .hood.r{animation-delay:-1.6s;transform:scaleX(-1)}
+  @keyframes float{0%,100%{translate:0 0}50%{translate:0 -14px}}
+  .mid{flex:1 1 auto;min-width:0}
+  .skull{width:clamp(110px,15vw,190px);filter:drop-shadow(0 0 22px rgba(255,45,85,.9));animation:float 2.6s ease-in-out infinite}
+  .glitch{
+    position:relative;display:inline-block;margin:8px 0 6px;font-size:clamp(2.2rem,7.2vw,5.4rem);font-weight:900;color:#ff2d55;
+    text-shadow:0 0 22px rgba(255,45,85,.85);line-height:1.2;
+  }
+  .glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0}
+  .glitch::before{color:#00e5ff;transform:translate(4px,0);clip-path:inset(0 0 55% 0);animation:g1 1.4s infinite steps(1)}
+  .glitch::after{color:#ffffff;opacity:.7;transform:translate(-4px,0);clip-path:inset(55% 0 0 0);animation:g2 1.1s infinite steps(1)}
+  @keyframes g1{0%{clip-path:inset(0 0 60% 0)}25%{clip-path:inset(30% 0 40% 0)}50%{clip-path:inset(60% 0 5% 0)}75%{clip-path:inset(10% 0 70% 0)}100%{clip-path:inset(0 0 60% 0)}}
+  @keyframes g2{0%{clip-path:inset(60% 0 0 0)}25%{clip-path:inset(5% 0 75% 0)}50%{clip-path:inset(40% 0 30% 0)}75%{clip-path:inset(75% 0 0 0)}100%{clip-path:inset(60% 0 0 0)}}
+  .who{font-size:clamp(1.1rem,2.6vw,1.8rem);color:#fff;font-weight:800;min-height:1.6em;text-shadow:0 0 10px rgba(255,255,255,.6)}
+  .term{
+    margin:14px auto 0;max-width:640px;text-align:right;direction:rtl;font-family:"Courier New",Consolas,monospace;
+    font-size:clamp(.95rem,1.9vw,1.25rem);line-height:1.9;color:var(--green);text-shadow:0 0 8px rgba(0,255,102,.6);
+    background:rgba(0,0,0,.55);border:1px solid rgba(0,255,102,.45);border-radius:10px;padding:12px 16px;min-height:9.5em;
+  }
+  .prog{height:12px;border:1px solid var(--green);border-radius:6px;overflow:hidden;margin-top:12px;background:rgba(0,0,0,.6)}
+  .prog i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,var(--green) 0 10px,#00b347 10px 20px);transition:width .5s linear}
+  .ctrl{position:absolute;z-index:6;bottom:16px;left:16px;display:flex;gap:10px}
+  .ctrl button{
+    font:inherit;font-weight:800;color:#e8ffef;background:rgba(0,0,0,.6);border:1px solid rgba(0,255,102,.6);
+    border-radius:10px;padding:10px 16px;cursor:pointer;opacity:.85
+  }
+  .ctrl button:hover{opacity:1;background:rgba(0,60,20,.8)}
 
-    .banner {
-      background: var(--banner-bg);
-      color: var(--banner);
-      border-bottom: 1px solid #f0d7b4;
-      padding: 14px 20px;
-      text-align: center;
-      font-weight: 700;
-      line-height: 1.7;
-    }
-
-    main {
-      max-width: 640px;
-      margin: 40px auto;
-      padding: 0 16px 48px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 32px 28px;
-      box-shadow: 0 10px 30px rgba(28, 36, 48, 0.06);
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 1.7rem;
-    }
-
-    p { line-height: 1.8; }
-
-    .lead { color: var(--muted); margin-top: 0; }
-
-    label {
-      display: block;
-      margin: 22px 0 8px;
-      font-weight: 700;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      font: inherit;
-      padding: 12px 14px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #fff;
-    }
-
-    input[type="text"]:focus {
-      outline: 2px solid #b7d7e3;
-      border-color: var(--accent);
-    }
-
-    button {
-      margin-top: 18px;
-      font: inherit;
-      font-weight: 700;
-      border: 0;
-      border-radius: 10px;
-      padding: 12px 22px;
-      cursor: pointer;
-      background: var(--accent);
-      color: #fff;
-    }
-
-    button:hover { background: var(--accent-dark); }
-
-    button.secondary {
-      background: transparent;
-      color: var(--accent-dark);
-      border: 1px solid var(--line);
-    }
-
-    .alert {
-      background: var(--alert-bg);
-      color: var(--alert);
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 1.45rem;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .lesson {
-      background: var(--ok-bg);
-      color: var(--ok);
-      border-radius: 12px;
-      padding: 16px 18px;
-      margin-top: 16px;
-    }
-
-    .hidden { display: none; }
-  </style>
+  /* ---------- الصفحة الثالثة: كشف الحقيقة ---------- */
+  #lesson{position:relative;z-index:2;min-height:100vh;padding:30px 14px 50px;background:#f4f7fb}
+  #lesson .wrap{max-width:760px;margin:0 auto}
+  .ok{background:#e8f7f1;color:#0f6b4c;border:1px solid #bfe8d6;border-radius:18px;padding:20px 22px;text-align:center}
+  .ok h2{margin:0 0 6px;font-size:1.8rem}
+  .ok p{margin:0;line-height:1.8;font-weight:700}
+  .box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin-top:16px;box-shadow:0 10px 30px rgba(28,36,48,.06)}
+  .box h3{margin:0 0 10px;font-size:1.3rem}
+  .flag{display:flex;gap:12px;align-items:flex-start;margin:10px 0}
+  .flag .n{flex:0 0 34px;height:34px;border-radius:50%;background:#fdecec;color:#8f1d1d;font-weight:900;display:flex;align-items:center;justify-content:center}
+  .flag p{margin:0;line-height:1.8}
+  .do .n{background:#e8f7f1;color:#0f6b4c}
+  .again{display:block;margin:20px auto 0;font:inherit;font-weight:800;border:0;border-radius:12px;padding:13px 26px;cursor:pointer;background:#1f6f8b;color:#fff}
+  .again:hover{background:#174f63}
+</style>
 </head>
 <body>
- 
 
+<!-- ================= الصفحة 1: الجوائز ================= -->
+<div id="prize-screen">
+  <canvas id="confetti"></canvas>
+  <div class="ribbon">🔥 عرض حصري! ينتهي خلال <b id="cd">05:00</b> 🔥 سارعي قبل فوات الأوان</div>
   <main>
-    <section class="card" id="form-screen">
-      <h1>احصلي على الجائزة الآن </h1>
-      <p class="lead">اكتبي الاسم فقط </p>
-      <form id="demo-form">
-        <label for="name">الاسم</label>
-        <input id="name" name="name" type="text" autocomplete="off" placeholder="اكتبي اسماً للتجربة">
-        <button type="submit">إرسال</button>
-      </form>
-    </section>
+    <section class="card">
+      <svg class="gift" viewBox="0 0 200 200" aria-hidden="true">
+        <rect x="30" y="86" width="140" height="94" rx="10" fill="#ff3d81"/>
+        <rect x="22" y="64" width="156" height="34" rx="10" fill="#ff6aa2"/>
+        <rect x="90" y="64" width="20" height="116" fill="#ffd23f"/>
+        <path d="M100 64 C 60 20, 20 40, 52 64 Z" fill="#ffd23f"/>
+        <path d="M100 64 C 140 20, 180 40, 148 64 Z" fill="#ffc21a"/>
+        <circle cx="100" cy="62" r="10" fill="#ffb300"/>
+        <path d="M46 30 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#fff" opacity=".9"/>
+        <path d="M158 22 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#fff" opacity=".9"/>
+      </svg>
+      <span class="badge">🎉 مبروك! تم اختيارك ضمن المحظوظات</span>
+      <h1>اربحي جائزتك الكبرى الآن!</h1>
+      <p class="lead">شاركي في السحب اليومي على جوائز قيّمة. كل ما عليكِ <b>كتابة اسمك فقط</b> وتأكيد مشاركتك!</p>
 
-    <section class="card hidden" id="result-screen">
-      <div class="alert">تم هكر جهازك</div>
-      <div class="lesson">
-       
+      <div class="prizes">
+        <div class="prize"><span>📱</span>جوال حديث</div>
+        <div class="prize"><span>🎧</span>سماعات لاسلكية</div>
+        <div class="prize"><span>💳</span>قسيمة شرائية</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><b id="winners">12,483</b><small>فائزة حتى الآن</small></div>
+        <div class="stat"><b>3</b><small>جوائز متبقية اليوم فقط!</small></div>
+      </div>
+      <div class="bar"><i></i></div>
+      <p class="warnline">⚠️ الجوائز على وشك النفاد، لا تفوّتي فرصتك!</p>
+
+      <form id="demo-form" autocomplete="off">
+        <label for="name">اكتبي اسمك لتسجيل مشاركتك:</label>
+        <input id="name" name="name" type="text" autocomplete="off" placeholder="مثال: نورة أحمد">
+        <button class="cta" type="submit">🎁 احصلي على جائزتي الآن</button>
+        <p class="fine">مجاني 100% · لا حاجة لأي بيانات أخرى · التسجيل يستغرق ثوانٍ</p>
+      </form>
+
+      <div class="trust">
+        <span>🔒 موقع آمن</span><span>✔ موثّق رسميًا</span><span>🏆 جوائز حقيقية</span>
+      </div>
+
+      <div class="proof">
+        <div class="t"><span class="av">أ</span><span class="st">★★★★★</span><br>استلمت جوالي خلال يومين! مو مصدّقة!</div>
+        <div class="t"><span class="av">م</span><span class="st">★★★★★</span><br>وصلتني القسيمة بسهولة، شكرًا لكم.</div>
+        <div class="t"><span class="av">س</span><span class="st">★★★★★</span><br>كنت أظنها مزحة، والحمد لله فزت!</div>
       </div>
     </section>
   </main>
+</div>
 
-  <script>
-    const form = document.getElementById("demo-form");
-    const formScreen = document.getElementById("form-screen");
-    const resultScreen = document.getElementById("result-screen");
-    const nameInput = document.getElementById("name");
+<!-- ================= الصفحة 2: شاشة الاختراق ================= -->
+<div id="hack" class="hidden" aria-live="polite">
+  <canvas id="matrix"></canvas>
+  <div class="hk">
+    <!-- قرصان بقبعة (يمين) -->
+    <svg class="hood" viewBox="0 0 200 270" aria-hidden="true">
+      <path d="M100 8 C44 8 22 62 28 112 C31 142 18 176 6 268 L194 268 C182 176 169 142 172 112 C178 62 156 8 100 8 Z" fill="#070707" stroke="#00ff66" stroke-width="3"/>
+      <ellipse cx="100" cy="108" rx="50" ry="60" fill="#000" stroke="#00ff66" stroke-opacity=".5" stroke-width="2"/>
+      <ellipse cx="80" cy="98" rx="10" ry="6" fill="#00ff66"/><ellipse cx="120" cy="98" rx="10" ry="6" fill="#00ff66"/>
+      <path d="M68 128 Q100 158 132 128" fill="none" stroke="#00ff66" stroke-width="3" stroke-linecap="round"/>
+      <path d="M78 134 v8 M90 142 v8 M100 145 v8 M110 142 v8 M122 134 v8" stroke="#00ff66" stroke-width="3" stroke-linecap="round"/>
+      <rect x="60" y="196" width="80" height="50" rx="6" fill="#0a0a0a" stroke="#00ff66" stroke-width="2"/>
+      <text x="100" y="228" text-anchor="middle" font-family="Courier New, monospace" font-size="22" fill="#00ff66">&lt;/&gt;</text>
+    </svg>
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      formScreen.classList.add("hidden");
-      resultScreen.classList.remove("hidden");
+    <div class="mid">
+      <!-- جمجمة وعظمتان متقاطعتان -->
+      <svg class="skull" viewBox="-120 -110 240 230" aria-hidden="true">
+        <g stroke="#f2ede6" stroke-width="14" stroke-linecap="round">
+          <line x1="-95" y1="-60" x2="95" y2="95"/><line x1="95" y1="-60" x2="-95" y2="95"/>
+        </g>
+        <g fill="#f2ede6">
+          <circle cx="-98" cy="-64" r="11"/><circle cx="-88" cy="-74" r="11"/><circle cx="98" cy="-64" r="11"/><circle cx="88" cy="-74" r="11"/>
+          <circle cx="-98" cy="99" r="11"/><circle cx="-88" cy="109" r="11"/><circle cx="98" cy="99" r="11"/><circle cx="88" cy="109" r="11"/>
+        </g>
+        <path d="M-64 6 C-64 -56 -32 -88 0 -88 C32 -88 64 -56 64 6 C64 28 52 42 40 48 L40 72 C40 80 34 86 26 86 L-26 86 C-34 86 -40 80 -40 72 L-40 48 C-52 42 -64 28 -64 6 Z" fill="#f2ede6" stroke="#0a0a0a" stroke-width="4"/>
+        <ellipse cx="-25" cy="6" rx="18" ry="22" fill="#0a0a0a"/><ellipse cx="25" cy="6" rx="18" ry="22" fill="#0a0a0a"/>
+        <circle cx="-25" cy="10" r="6" fill="#ff2d55"/><circle cx="25" cy="10" r="6" fill="#ff2d55"/>
+        <path d="M0 30 L-8 52 L8 52 Z" fill="#0a0a0a"/>
+        <path d="M-26 68 H26 M-17 68 V86 M-8.5 68 V86 M0 68 V86 M8.5 68 V86 M17 68 V86" stroke="#0a0a0a" stroke-width="4"/>
+      </svg>
+
+      <div><span class="glitch" data-text="تم هكر جهازك!">تم هكر جهازك!</span></div>
+      <div class="who" id="victim"></div>
+      <div class="term" id="term"></div>
+      <div class="prog"><i id="prog"></i></div>
+    </div>
+
+    <!-- قرصان بقبعة (يسار) -->
+    <svg class="hood r" viewBox="0 0 200 270" aria-hidden="true">
+      <path d="M100 8 C44 8 22 62 28 112 C31 142 18 176 6 268 L194 268 C182 176 169 142 172 112 C178 62 156 8 100 8 Z" fill="#070707" stroke="#ff2d55" stroke-width="3"/>
+      <ellipse cx="100" cy="108" rx="50" ry="60" fill="#000" stroke="#ff2d55" stroke-opacity=".5" stroke-width="2"/>
+      <ellipse cx="80" cy="98" rx="10" ry="6" fill="#ff2d55"/><ellipse cx="120" cy="98" rx="10" ry="6" fill="#ff2d55"/>
+      <path d="M68 128 Q100 158 132 128" fill="none" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/>
+      <path d="M78 134 v8 M90 142 v8 M100 145 v8 M110 142 v8 M122 134 v8" stroke="#ff2d55" stroke-width="3" stroke-linecap="round"/>
+      <rect x="60" y="196" width="80" height="50" rx="6" fill="#0a0a0a" stroke="#ff2d55" stroke-width="2"/>
+      <text transform="translate(200 0) scale(-1 1)" x="100" y="228" text-anchor="middle" font-family="Courier New, monospace" font-size="22" fill="#ff2d55">01</text>
+    </svg>
+  </div>
+
+  <div class="ctrl">
+    <button id="mute" type="button">🔊 الصوت</button>
+    <button id="reveal" type="button" class="hidden">كشف الحقيقة ⏎</button>
+  </div>
+</div>
+
+<!-- ================= الصفحة 3: كشف الحقيقة ================= -->
+<div id="lesson" class="hidden">
+  <div class="wrap">
+    <div class="ok">
+      <h2>🎓 هذه كانت تجربة! لم يُخترق جهازك</h2>
+      <p>لم يُحفظ الاسم الذي كتبتِه ولم يُرسل أي شيء إلى أي جهة. الهدف أن تري كيف يقع الناس في الفخ بسهولة.</p>
+    </div>
+
+    <div class="box">
+      <h3>🚩 علامات الاحتيال التي مرّت بكِ قبل قليل</h3>
+      <div class="flag"><span class="n">1</span><p><b>جائزة كبيرة دون سبب:</b> لم تشاركي في أي مسابقة، ومع ذلك "فزتِ"!</p></div>
+      <div class="flag"><span class="n">2</span><p><b>استعجال وعدّاد تنازلي:</b> يدفعك للتصرف بسرعة قبل أن تفكري.</p></div>
+      <div class="flag"><span class="n">3</span><p><b>"3 جوائز متبقية فقط":</b> ضغط نفسي يخوّفك من فوات الفرصة.</p></div>
+      <div class="flag"><span class="n">4</span><p><b>بيانات بسيطة كبداية:</b> الاسم اليوم، ثم غدًا رقم الجوال ثم بطاقة البنك أو رمز التحقق.</p></div>
+      <div class="flag"><span class="n">5</span><p><b>شهادات ثقة وأرقام وهمية:</b> "موثّق" و"آمن" وآراء فائزات وأعداد فائزين، وكلها قابلة للتزييف بسهولة.</p></div>
+    </div>
+
+    <div class="box do">
+      <h3>✅ ماذا أفعل عند رؤية عرض مثل هذا؟</h3>
+      <div class="flag"><span class="n">1</span><p>لا تضغطي على الرابط ولا تكتبي أي بيانات، وأغلقي الصفحة.</p></div>
+      <div class="flag"><span class="n">2</span><p>تحققي من المصدر الرسمي للمسابقة قبل التصديق: هل الجهة معروفة فعلًا؟</p></div>
+      <div class="flag"><span class="n">3</span><p>لا تشاركي رموز التحقق أو كلمات المرور أو بيانات البطاقة مع أحد أبدًا.</p></div>
+      <div class="flag"><span class="n">4</span><p>أبلغي تقنية المعلومات فورًا عند الشك، حتى لو كنتِ قد ضغطتِ على الرابط.</p></div>
+    </div>
+
+    <button class="again" id="again" type="button">↺ إعادة التجربة</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var prizeScreen = $("prize-screen"), hack = $("hack"), lesson = $("lesson");
+  var nameInput = $("name");
+
+  /* ---------- عدّاد تنازلي وهمي + عدّاد الفائزات ---------- */
+  var left = 299;
+  setInterval(function(){
+    left = left <= 0 ? 299 : left - 1;
+    var m = String(Math.floor(left/60)).padStart(2,"0"), s = String(left%60).padStart(2,"0");
+    $("cd").textContent = m + ":" + s;
+  }, 1000);
+  var winners = 12483;
+  setInterval(function(){
+    if (Math.random() < .5) { winners += Math.floor(Math.random()*3)+1; $("winners").textContent = winners.toLocaleString("en-US"); }
+  }, 2200);
+
+  /* ---------- قصاصات ملونة ---------- */
+  var cv = $("confetti"), cx = cv.getContext("2d"), pieces = [], confettiOn = true, confRAF;
+  function sizeConf(){ cv.width = innerWidth; cv.height = innerHeight; }
+  sizeConf(); addEventListener("resize", sizeConf);
+  var cols = ["#ffd23f","#ff3d81","#00e5ff","#7cff6b","#ffffff","#ff8a00"];
+  for (var i=0;i<90;i++) pieces.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,w:6+Math.random()*8,h:10+Math.random()*10,v:1+Math.random()*2.2,r:Math.random()*6,vr:(Math.random()-.5)*.2,c:cols[i%cols.length]});
+  function confetti(){
+    if(!confettiOn) return;
+    cx.clearRect(0,0,cv.width,cv.height);
+    pieces.forEach(function(p){
+      p.y += p.v; p.r += p.vr; p.x += Math.sin(p.y/40)*.6;
+      if (p.y > cv.height + 20) { p.y = -20; p.x = Math.random()*cv.width; }
+      cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.fillRect(-p.w/2,-p.h/2,p.w,p.h); cx.restore();
     });
+    confRAF = requestAnimationFrame(confetti);
+  }
+  confetti();
 
-    document.getElementById("reset").addEventListener("click", function () {
-      nameInput.value = "";
-      resultScreen.classList.add("hidden");
-      formScreen.classList.remove("hidden");
-      nameInput.focus();
+  /* ---------- مطر الأكواد ---------- */
+  var mc = $("matrix"), mx = mc.getContext("2d"), drops = [], matrixRAF, matrixOn = false;
+  var glyphs = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&<>/\\{}[]=+*".split("");
+  function sizeMatrix(){
+    mc.width = innerWidth; mc.height = innerHeight;
+    var cols = Math.ceil(mc.width/18);
+    drops = []; for (var i=0;i<cols;i++) drops.push(Math.random()*-50);
+  }
+  function matrix(){
+    if(!matrixOn) return;
+    mx.fillStyle = "rgba(0,0,0,.09)"; mx.fillRect(0,0,mc.width,mc.height);
+    mx.font = "16px 'Courier New', monospace"; mx.fillStyle = "#00ff66";
+    for (var i=0;i<drops.length;i++){
+      mx.fillText(glyphs[Math.floor(Math.random()*glyphs.length)], i*18, drops[i]*18);
+      if (drops[i]*18 > mc.height && Math.random() > .975) drops[i] = 0;
+      drops[i]++;
+    }
+    matrixRAF = requestAnimationFrame(matrix);
+  }
+  addEventListener("resize", function(){ if(matrixOn) sizeMatrix(); });
+
+  /* ---------- صوت إنذار قصير (اختياري) ---------- */
+  var muted = false, audioCtx = null;
+  function alarm(){
+    if (muted) return;
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      var o = audioCtx.createOscillator(), g = audioCtx.createGain(), t0 = audioCtx.currentTime;
+      o.type = "sawtooth"; g.gain.value = 0.06;
+      o.connect(g); g.connect(audioCtx.destination);
+      for (var k=0;k<6;k++){ o.frequency.setValueAtTime(k%2 ? 520 : 820, t0 + k*0.45); }
+      o.start(t0); o.stop(t0 + 2.7);
+    } catch(e){}
+  }
+  $("mute").addEventListener("click", function(){
+    muted = !muted; this.textContent = muted ? "🔇 الصوت" : "🔊 الصوت";
+  });
+
+  /* ---------- شاشة الاختراق ---------- */
+  var lines = [
+    "> جاري الاتصال بجهازك ...",
+    "> تم تجاوز الحماية بنجاح ✔",
+    "> جاري قراءة الملفات والصور ...",
+    "> جاري نسخ كلمات المرور المحفوظة ...",
+    "> تم إرسال البيانات إلى خادم المخترق ✔"
+  ];
+  var timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+  function startHack(name){
+    prizeScreen.classList.add("hidden");
+    confettiOn = false; cancelAnimationFrame(confRAF);
+    document.body.style.background = "#000"; document.body.style.animation = "none";
+    hack.classList.remove("hidden");
+    // إعادة تشغيل حركة الاهتزاز
+    hack.style.animation = "none"; void hack.offsetWidth; hack.style.animation = "";
+    $("victim").textContent = name ? ("الضحية: " + name) : "";
+    $("term").textContent = ""; $("prog").style.width = "0";
+    $("reveal").classList.add("hidden");
+    matrixOn = true; sizeMatrix(); matrix(); alarm();
+    lines.forEach(function(l, i){
+      later(function(){
+        var d = document.createElement("div"); d.textContent = l; $("term").appendChild(d);
+        $("prog").style.width = Math.round((i+1)/lines.length*100) + "%";
+      }, 900 + i*1100);
     });
-  </script>
+    later(function(){ $("reveal").classList.remove("hidden"); }, 8000);
+  }
+
+  function showLesson(){
+    clearTimers();
+    matrixOn = false; cancelAnimationFrame(matrixRAF);
+    hack.classList.add("hidden");
+    document.body.style.background = "#f4f7fb"; document.body.style.animation = "none";
+    lesson.classList.remove("hidden");
+    scrollTo(0,0);
+  }
+
+  function reset(){
+    clearTimers();
+    lesson.classList.add("hidden"); hack.classList.add("hidden");
+    document.body.style.background = ""; document.body.style.animation = "";
+    prizeScreen.classList.remove("hidden");
+    nameInput.value = "";
+    if (!confettiOn){ confettiOn = true; confetti(); }
+    scrollTo(0,0); nameInput.focus();
+  }
+
+  /* الفورم لا يرسل شيئًا: فقط ينتقل بين الشاشات */
+  $("demo-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    startHack(nameInput.value.trim());
+  });
+  $("reveal").addEventListener("click", showLesson);
+  $("again").addEventListener("click", reset);
+  addEventListener("keydown", function(e){
+    if (!hack.classList.contains("hidden") && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); showLesson(); }
+  });
+})();
+</script>
 </body>
 </html>
