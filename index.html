@@ -54,7 +54,8 @@
   .prizes{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 18px}
   .prize{flex:1 1 150px;max-width:210px;background:linear-gradient(180deg,#fff,#f6f0ff);border:2px solid #e5d9ff;border-radius:16px;padding:12px 8px;font-weight:800;font-size:.98rem}
   .prize span{display:block;font-size:2rem;line-height:1.3}
-  .stats{display:flex;gap:10px;margin:0 0 6px}
+  .stats{display:flex;justify-content:center;gap:10px;margin:0 0 16px}
+  .stats .stat{max-width:220px}
   .stat{flex:1;background:#f4f7fb;border:1px solid var(--line);border-radius:14px;padding:10px 8px}
   .stat b{display:block;font-size:1.5rem;color:#c81e8c;font-variant-numeric:tabular-nums}
   .stat small{color:var(--muted);font-weight:700}
@@ -164,7 +165,7 @@
         <path d="M46 30 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#fff" opacity=".9"/>
         <path d="M158 22 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#fff" opacity=".9"/>
       </svg>
-      <span class="badge">🎉 مبروك! تم اختيارك ضمن المحظوظات</span>
+      <span class="badge">🎉 مبروك! جوائز مميزة لطاقم التهذيب</span>
       <h1>اربحي جائزتك الكبرى الآن!</h1>
       <p class="lead">شاركي في السحب اليومي على جوائز قيّمة. كل ما عليكِ <b>كتابة اسمك فقط</b> وتأكيد مشاركتك!</p>
 
@@ -175,11 +176,8 @@
       </div>
 
       <div class="stats">
-        <div class="stat"><b id="winners">12,483</b><small>فائزة حتى الآن</small></div>
-        <div class="stat"><b>3</b><small>جوائز متبقية اليوم فقط!</small></div>
+        <div class="stat"><b id="winners">12,594</b><small>فائزة حتى الآن</small></div>
       </div>
-      <div class="bar"><i></i></div>
-      <p class="warnline">⚠️ الجوائز على وشك النفاد، لا تفوّتي فرصتك!</p>
 
       <form id="demo-form" autocomplete="off">
         <label for="name">اكتبي اسمك لتسجيل مشاركتك:</label>
@@ -190,12 +188,6 @@
 
       <div class="trust">
         <span>🔒 موقع آمن</span><span>✔ موثّق رسميًا</span><span>🏆 جوائز حقيقية</span>
-      </div>
-
-      <div class="proof">
-        <div class="t"><span class="av">أ</span><span class="st">★★★★★</span><br>استلمت جوالي خلال يومين! مو مصدّقة!</div>
-        <div class="t"><span class="av">م</span><span class="st">★★★★★</span><br>وصلتني القسيمة بسهولة، شكرًا لكم.</div>
-        <div class="t"><span class="av">س</span><span class="st">★★★★★</span><br>كنت أظنها مزحة، والحمد لله فزت!</div>
       </div>
     </section>
   </main>
@@ -269,9 +261,8 @@
       <h3>🚩 علامات الاحتيال التي مرّت بكِ قبل قليل</h3>
       <div class="flag"><span class="n">1</span><p><b>جائزة كبيرة دون سبب:</b> لم تشاركي في أي مسابقة، ومع ذلك "فزتِ"!</p></div>
       <div class="flag"><span class="n">2</span><p><b>استعجال وعدّاد تنازلي:</b> يدفعك للتصرف بسرعة قبل أن تفكري.</p></div>
-      <div class="flag"><span class="n">3</span><p><b>"3 جوائز متبقية فقط":</b> ضغط نفسي يخوّفك من فوات الفرصة.</p></div>
-      <div class="flag"><span class="n">4</span><p><b>بيانات بسيطة كبداية:</b> الاسم اليوم، ثم غدًا رقم الجوال ثم بطاقة البنك أو رمز التحقق.</p></div>
-      <div class="flag"><span class="n">5</span><p><b>شهادات ثقة وأرقام وهمية:</b> "موثّق" و"آمن" وآراء فائزات وأعداد فائزين، وكلها قابلة للتزييف بسهولة.</p></div>
+      <div class="flag"><span class="n">3</span><p><b>بيانات بسيطة كبداية:</b> الاسم اليوم، ثم غدًا رقم الجوال ثم بطاقة البنك أو رمز التحقق.</p></div>
+      <div class="flag"><span class="n">4</span><p><b>شهادات ثقة وأرقام وهمية:</b> "موثّق" و"آمن" وعدّاد فائزات، وكلها قابلة للتزييف بسهولة.</p></div>
     </div>
 
     <div class="box do">
@@ -300,7 +291,7 @@
     var m = String(Math.floor(left/60)).padStart(2,"0"), s = String(left%60).padStart(2,"0");
     $("cd").textContent = m + ":" + s;
   }, 1000);
-  var winners = 12483;
+  var winners = 12594;
   setInterval(function(){
     if (Math.random() < .5) { winners += Math.floor(Math.random()*3)+1; $("winners").textContent = winners.toLocaleString("en-US"); }
   }, 2200);
